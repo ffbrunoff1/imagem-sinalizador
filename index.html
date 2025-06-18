@@ -2,26 +2,20 @@
 <html>
 <head>
   <meta charset="UTF-8" />
-  <title>Imagem Atualizada</title>
+  <title>Sinalizador SSE</title>
 </head>
 <body>
   <script>
     const eventSource = new EventSource("https://ffbrunoff.app.n8n.cloud/webhook/sse-imagem");
 
-    eventSource.onmessage = function (event) {
-      // mensagem padrão
-      parent.postMessage({ tipo: "imagem_atualizada" }, "*");
-    };
-
     eventSource.addEventListener("imagem_atualizada", function (event) {
-      // evento nomeado
       parent.postMessage({ tipo: "imagem_atualizada" }, "*");
     });
 
-    eventSource.onerror = function (error) {
-      console.error("Erro no SSE:", error);
+    eventSource.onerror = function (e) {
+      console.error("Erro na conexão SSE:", e);
     };
   </script>
-  <p>Monitorando imagem...</p>
+  <p style="font-family: sans-serif;">Sinalizador ativo...</p>
 </body>
 </html>
