@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <title>Imagem Atualizada</title>
+</head>
+<body>
+  <script>
+    const eventSource = new EventSource("https://SEU_N8N_URL/webhook/sse-imagem");
+
+    eventSource.onmessage = function (event) {
+      // mensagem padrão
+      parent.postMessage({ tipo: "imagem_atualizada" }, "*");
+    };
+
+    eventSource.addEventListener("imagem_atualizada", function (event) {
+      // evento nomeado
+      parent.postMessage({ tipo: "imagem_atualizada" }, "*");
+    });
+
+    eventSource.onerror = function (error) {
+      console.error("Erro no SSE:", error);
+    };
+  </script>
+  <p>Monitorando imagem...</p>
+</body>
+</html>
