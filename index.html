@@ -6,16 +6,21 @@
 </head>
 <body>
   <script>
-    const eventSource = new EventSource("https://ffbrunoff.app.n8n.cloud/webhook/sse-imagem");
+    const eventSource = new EventSource(
+      "https://ffbrunoff.app.n8n.cloud/webhook/sse-imagem"
+    );
 
-    eventSource.addEventListener("imagem_atualizada", function (event) {
+    eventSource.addEventListener("imagem_atualizada", (event) => {
       parent.postMessage({ tipo: "imagem_atualizada" }, "*");
+      eventSource.close();          // ← NOVO  (impede reconexões)
     });
 
-    eventSource.onerror = function (e) {
+    eventSource.onerror = (e) => {
       console.error("Erro na conexão SSE:", e);
+      eventSource.close();          // ← NOVO  (fecha em caso de erro)
     };
   </script>
+
   <p style="font-family: sans-serif;">Sinalizador ativo...</p>
 </body>
 </html>
